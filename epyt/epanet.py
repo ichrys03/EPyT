@@ -510,10 +510,12 @@ class epanet:
             d = epanet(inpname, msx=True,customlib=epanetlib)
      """
 
-    def __init__(self, *argv, version=2.2, ph=False, loadfile=False, customlib=None, display_msg=True):
+    def __init__(self, *argv, version=2.2, ph=False, loadfile=False, customlib=None, display_msg=True,
+                 display_warnings=True):
         # Constants
         self.msx = None
-        warnings.simplefilter('always')
+        if display_warnings:
+            warnings.simplefilter('always') # 'action', "error", "ignore", "always", "default", "module", "once"
         # Demand model types. DDA #0 Demand driven analysis,
         # PDA #1 Pressure driven analysis.
         self.customlib = customlib
@@ -2385,14 +2387,25 @@ class epanet:
         value_final.Status = value_final.Status.astype(int)
         return value_final
 
-    def getComputedTimeSeries_ENepanet(self):
+    def getComputedTimeSeries_ENepanet(self, tempfile=None, binfile=None, rptfile=None):
         """ Run analysis using ENepanet function """
-        self.saveInputFile(self.TempInpFile)
-        uuID = ''.join(random.choices(string.ascii_letters +
-                                      string.digits, k=10))
-        rptfile = self.TempInpFile[0:-4] + '.txt'
-        binfile = '@#' + uuID + '.bin'
-        self.api.ENepanet(self.TempInpFile, rptfile, binfile)
+
+        if tempfile is not None:
+            self.saveInputFile(tempfile)
+        else:
+            self.saveInputFile(self.TempInpFile)
+            uuID = ''.join(random.choices(string.ascii_letters + string.digits, k=10))
+
+        if binfile is None:
+            binfile = '@#' + uuID + '.bin'
+        if rptfile is None:
+            rptfile = self.TempInpFile[:-4] + '.txt'
+        self.api.ENclose()
+        if tempfile is not None:
+            self.api.ENepanet(tempfile, rptfile, binfile)
+        else:
+            self.api.ENepanet(self.TempInpFile, rptfile, binfile)
+        
         fid = open(binfile, "rb")
         value = self.__readEpanetBin(fid, binfile, 0)
         value.WarnFlag = False
@@ -6485,6 +6498,9 @@ class epanet:
         else:
             code = argv[0]
         self.api.ENinitQ(code)
+
+    def loadlibrary(self):
+        self._lib = cdll.LoadLibrary(self.LibEPANET)
 
     def loadEPANETFile(self, *argv):
         """ Load epanet file when use bin functions.
