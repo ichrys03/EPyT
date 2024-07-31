@@ -15477,11 +15477,27 @@ class epanetapi:
                  Returns: error code
                  Purpose: sets the type assigned to a data curve"""
         index = c_double(index)
+        type = c_double(type)
         if self._ph is not None:
             self.errcode = self._lib.EN_setcurvetype(self._ph, index, type)
         else:
             self.errcode = self._lib.ENsetcurvetype(index, type)
 
+    def EN_setvertex(self, index, vertex, x, y):
+        """ Input:   index = link index
+             vertex = index of a link vertex point
+             x = vertex point's X-coordinate
+             y = vertex point's Y-coordinate
+          Returns: error code
+          Purpose: sets the coordinates of a vertex point in a link"""
+        index = c_double(index)
+        vertex = c_double(vertex)
+        x = c_double(x)
+        y = c_double(y)
+        if self._ph is not None:
+            self.errcode = self._lib.EN_setvertex(self._ph, index, vertex, x, y)
+        else:
+            self.errcode = self._lib.ENsetvertex(index, vertex, x, y)
     def ENsetcurveid(self, index, Id):
         """ Changes the ID name of a data curve given its index.
 
