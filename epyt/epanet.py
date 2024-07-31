@@ -15470,6 +15470,18 @@ class epanetapi:
 
         self.ENgeterror()
 
+    def EN_setcurvetype(self, index, type):
+        """ Allow API clients to set a curve's type (e.g., EN_PUMP_CURVE, EN_VOLUME_CURVE, etc.).
+        Input:   index = data curve index
+                 type = type of data curve (see EN_CurveType)
+                 Returns: error code
+                 Purpose: sets the type assigned to a data curve"""
+        index = c_double(index)
+        if self._ph is not None:
+            self.errcode = self._lib.EN_setcurvetype(self._ph, index, type)
+        else:
+            self.errcode = self._lib.ENsetcurvetype(index, type)
+
     def ENsetcurveid(self, index, Id):
         """ Changes the ID name of a data curve given its index.
 
