@@ -15511,6 +15511,49 @@ class epanetapi:
         else:
             self.errcode = self._lib.ENtimetonextevent(eventType, duration, elementIndex)
 
+    def EN_getcontrolenabled(self, index, enabled):
+
+        index = c_double(index)
+        enabled = c_double(enabled)
+
+
+        if self._ph is not None:
+            self.errcode = self._lib.EN_getcontrolenabled(self._ph,  index, enabled)
+        else:
+            self.errcode = self._lib.ENgetcontrolenabled(index, enabled)
+
+    def EN_setcontrolenabled(self, index, enabled):
+
+        index = c_double(index)
+        enabled = c_double(enabled)
+
+
+        if self._ph is not None:
+            self.errcode = self._lib.EN_setcontrolenabled(self._ph, index, enabled)
+        else:
+            self.errcode = self._lib.ENsetcontrolenabled(index, enabled)
+
+    def EN_getruleenabled(self, index, enabled):
+
+        index = c_double(index)
+        enabled = c_double(enabled)
+
+
+        if self._ph is not None:
+            self.errcode = self._lib.EN_getruleenabled(self._ph, index, enabled)
+        else:
+            self.errcode = self._lib.ENgetruleenabled(index, enabled)
+
+    def EN_setruleenabled(self, index, enabled):
+
+        index = c_double(index)
+        enabled = c_double(enabled)
+
+        if self._ph is not None:
+            self.errcode = self._lib.EN_setruleenabled(self._ph, index, enabled)
+        else:
+            self.errcode = self._lib.ENsetruleenabled(index, enabled)
+
     def ENsetcurveid(self, index, Id):
         """ Changes the ID name of a data curve given its index.
 
