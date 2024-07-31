@@ -15505,7 +15505,6 @@ class epanetapi:
         duration = c_double(duration)
         elentIndex = c_double(elementIndex)
 
-
         if self._ph is not None:
             self.errcode = self._lib.EN_timetonextevent(self._ph, eventType, duration, elementIndex)
         else:
@@ -15515,7 +15514,6 @@ class epanetapi:
 
         index = c_double(index)
         enabled = c_double(enabled)
-
 
         if self._ph is not None:
             self.errcode = self._lib.EN_getcontrolenabled(self._ph,  index, enabled)
@@ -15527,7 +15525,6 @@ class epanetapi:
         index = c_double(index)
         enabled = c_double(enabled)
 
-
         if self._ph is not None:
             self.errcode = self._lib.EN_setcontrolenabled(self._ph, index, enabled)
         else:
@@ -15537,7 +15534,6 @@ class epanetapi:
 
         index = c_double(index)
         enabled = c_double(enabled)
-
 
         if self._ph is not None:
             self.errcode = self._lib.EN_getruleenabled(self._ph, index, enabled)
@@ -15561,14 +15557,16 @@ class epanetapi:
            Output:  none
            Returns: error code
            Purpose: reads an EPANET input file with errors allowed."""
-        
+
         self.inpFile = bytes(inpFile, 'utf-8')
         self.rptFile = bytes(rptFile, 'utf-8')
         self.outFile = bytes(outFile, 'utf-8')
+
         if self._ph is not None:
             self.errcode = self._lib.EN_openX(self._ph, inpFile, rptFile, outFile)
         else:
             self.errcode = self._lib.ENopenX(inpFile, rptFile, outFile)
+
 
     def ENsetcurveid(self, index, Id):
         """ Changes the ID name of a data curve given its index.
