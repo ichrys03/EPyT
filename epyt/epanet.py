@@ -15498,6 +15498,19 @@ class epanetapi:
             self.errcode = self._lib.EN_setvertex(self._ph, index, vertex, x, y)
         else:
             self.errcode = self._lib.ENsetvertex(index, vertex, x, y)
+
+    def EN_timetonextevent(self, eventType, duration, elementIndex):
+        """get the time to next event, and give a reason for the time step truncation"""
+        eventType = c_double(eventType)
+        duration = c_double(duration)
+        elentIndex = c_double(elementIndex)
+
+
+        if self._ph is not None:
+            self.errcode = self._lib.EN_timetonextevent(self._ph, eventType, duration, elementIndex)
+        else:
+            self.errcode = self._lib.ENtimetonextevent(eventType, duration, elementIndex)
+
     def ENsetcurveid(self, index, Id):
         """ Changes the ID name of a data curve given its index.
 
