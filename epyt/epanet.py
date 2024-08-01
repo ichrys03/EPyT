@@ -3515,7 +3515,7 @@ class epanet:
         v = self.getLinkPumpTypeCode()
         pType = []
         for i in v:
-            pType.append(self.TYPEPUMP[i-1])
+            pType.append(self.TYPEPUMP[i])
         return pType
 
     def getLinkPumpTypeCode(self):
